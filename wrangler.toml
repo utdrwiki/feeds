@@ -1,0 +1,15 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "feeds"
+main = "src/index.ts"
+compatibility_date = "2025-04-21"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
+
+[triggers]
+crons = [ "*/5 * * * *" ]
+
+[[kv_namespaces]]
+binding = "FEEDS"
+id = "4a10b5c47d4f480992e7366b8e705383"

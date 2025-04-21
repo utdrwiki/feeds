@@ -1,0 +1,20 @@
+{
+	"name": "feeds",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev --test-scheduled",
+		"start": "wrangler dev --test-scheduled",
+		"test": "curl 'http://localhost:8787/__scheduled?cron=*+*+*+*+*'",
+		"cf-typegen": "wrangler types"
+	},
+	"devDependencies": {
+		"@types/node": "22.14.1",
+		"typescript": "5.8.3",
+		"wrangler": "4.12.0"
+	},
+	"dependencies": {
+		"rss-parser": "3.13.0"
+	}
+}
