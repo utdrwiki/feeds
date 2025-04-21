@@ -17,6 +17,9 @@ export default async function(
     const lastDateKey = `rss:${config.pipeline}`;
     const lastUpdate = await env.FEEDS.get(lastDateKey);
     const lastDate = lastUpdate ? new Date(lastUpdate) : new Date();
+    if (!lastUpdate) {
+        await env.FEEDS.put(lastDateKey, lastDate.toISOString());
+    }
     const response = await fetch(config.url, {
         headers: {
             'If-Modified-Since': lastDate.toUTCString(),
