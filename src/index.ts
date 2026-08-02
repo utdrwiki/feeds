@@ -36,19 +36,23 @@ async function scheduled(
 		}
 		const [step, item] = queueItem;
 		const config = {...step, next: undefined};
-		console.log('Processing queue item', {config, item})
-		const result = await steps[step.type](config, item, env);
-		if (result && step.next) {
-			console.log('Received result', {result});
-			if (step.multiple && Array.isArray(result)) {
-				for (const resultItem of result) {
-					queue.push([step.next, resultItem]);
+		console.log('Processing queue item', {config, item});
+		try {
+			const result = await steps[step.type](config, item, env);
+			if (result && step.next) {
+				console.log('Received result', {result});
+				if (step.multiple && Array.isArray(result)) {
+					for (const resultItem of result) {
+						queue.push([step.next, resultItem]);
+					}
+				} else {
+					queue.push([step.next, result]);
 				}
 			} else {
-				queue.push([step.next, result]);
+				console.log(`Stopping pipeline ${step.pipeline}`);
 			}
-		} else {
-			console.log(`Stopping pipeline ${step.pipeline}`);
+		} catch (error) {
+			console.error('Error processing queue item', {config, item, error});
 		}
 	}
 }
